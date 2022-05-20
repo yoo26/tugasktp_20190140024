@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class DataController {
-          DataJpaController datactrl = new DataJpaController();
+    DataJpaController datactrl = new DataJpaController();
     List<Data> newdata = new ArrayList<>();
-    
-    
-    
+    @RequestMapping("/main")
+    public String getMain(){
+        return "menu";
+    }
     @RequestMapping("/data")
-  //  @ResponseBody
-    public String getDataKTP(Model model){
+    public String getDataKTP(Model model) {
         int record = datactrl.getDataCount();
         String result = "";
         try{
@@ -32,5 +32,9 @@ public class DataController {
         model.addAttribute("goData", newdata);
         model.addAttribute("record", record);
         return "database";
+    }
+    @RequestMapping("/edit")
+    public String doEdit(){
+        return "editktp";
     }
 }

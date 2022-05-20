@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package rio.anggara.project.ktp;
+package rio.anggara.project.ktp.coba;
 
 import java.io.Serializable;
 import java.util.List;
@@ -13,37 +13,34 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import rio.anggara.project.ktp.exceptions.NonexistentEntityException;
-import rio.anggara.project.ktp.exceptions.PreexistingEntityException;
+import rio.anggara.project.ktp.coba.exceptions.NonexistentEntityException;
+import rio.anggara.project.ktp.coba.exceptions.PreexistingEntityException;
 
 /**
  *
  * @author rioan
  */
-public class DataJpaController implements Serializable {
+public class DummyJpaController implements Serializable {
 
-    public DataJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+    public DummyJpaController() {
     }
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("rio.anggara_project.ktp_jar_0.0.1-SNAPSHOTPU");
+
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public DataJpaController() {
-    }
-    
-    public void create(Data data) throws PreexistingEntityException, Exception {
+    public void create(Dummy dummy) throws PreexistingEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            em.persist(data);
+            em.persist(dummy);
             em.getTransaction().commit();
         } catch (Exception ex) {
-            if (findData(data.getId()) != null) {
-                throw new PreexistingEntityException("Data " + data + " already exists.", ex);
+            if (findDummy(dummy.getId()) != null) {
+                throw new PreexistingEntityException("Dummy " + dummy + " already exists.", ex);
             }
             throw ex;
         } finally {
@@ -53,19 +50,19 @@ public class DataJpaController implements Serializable {
         }
     }
 
-    public void edit(Data data) throws NonexistentEntityException, Exception {
+    public void edit(Dummy dummy) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            data = em.merge(data);
+            dummy = em.merge(dummy);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Long id = data.getId();
-                if (findData(id) == null) {
-                    throw new NonexistentEntityException("The data with id " + id + " no longer exists.");
+                Integer id = dummy.getId();
+                if (findDummy(id) == null) {
+                    throw new NonexistentEntityException("The dummy with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -76,19 +73,19 @@ public class DataJpaController implements Serializable {
         }
     }
 
-    public void destroy(Long id) throws NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Data data;
+            Dummy dummy;
             try {
-                data = em.getReference(Data.class, id);
-                data.getId();
+                dummy = em.getReference(Dummy.class, id);
+                dummy.getId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The data with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The dummy with id " + id + " no longer exists.", enfe);
             }
-            em.remove(data);
+            em.remove(dummy);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -97,19 +94,19 @@ public class DataJpaController implements Serializable {
         }
     }
 
-    public List<Data> findDataEntities() {
-        return findDataEntities(true, -1, -1);
+    public List<Dummy> findDummyEntities() {
+        return findDummyEntities(true, -1, -1);
     }
 
-    public List<Data> findDataEntities(int maxResults, int firstResult) {
-        return findDataEntities(false, maxResults, firstResult);
+    public List<Dummy> findDummyEntities(int maxResults, int firstResult) {
+        return findDummyEntities(false, maxResults, firstResult);
     }
 
-    private List<Data> findDataEntities(boolean all, int maxResults, int firstResult) {
+    private List<Dummy> findDummyEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Data.class));
+            cq.select(cq.from(Dummy.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -121,20 +118,20 @@ public class DataJpaController implements Serializable {
         }
     }
 
-    public Data findData(Long id) {
+    public Dummy findDummy(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Data.class, id);
+            return em.find(Dummy.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getDataCount() {
+    public int getDummyCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Data> rt = cq.from(Data.class);
+            Root<Dummy> rt = cq.from(Dummy.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

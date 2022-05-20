@@ -10,6 +10,7 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -75,7 +76,10 @@ public class Data implements Serializable {
     @Basic(optional = false)
     @Column(name = "berlakuhingga")
     private String berlakuhingga;
-
+    @Lob
+    @Column(name = "foto")
+    private byte[] foto;
+    
     public Data() {
     }
 
@@ -185,6 +189,14 @@ public class Data implements Serializable {
         this.berlakuhingga = berlakuhingga;
     }
 
+    public byte[] getFoto() {
+        return foto;
+    }
+    
+    public void setFoto(byte[] foto) {
+        this.foto = foto;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
