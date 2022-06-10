@@ -101,7 +101,6 @@ public class DummyController {
     }
     
     @PostMapping(value = "/update", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @ResponseBody
     public String updateDummy(@RequestParam("gambar")MultipartFile file, HttpServletResponse httpResponse, HttpServletRequest request) throws ParseException, Exception {
         Dummy dumdata = new Dummy();
         
@@ -118,8 +117,7 @@ public class DummyController {
         dumdata.setGambar(image);
         
         dummyController.edit(dumdata);
-        httpResponse.sendRedirect("read");
-        return "redirect:/edit";
+        return "redirect:/read";
     }
 
     @GetMapping(value = "/delete/{id}")
