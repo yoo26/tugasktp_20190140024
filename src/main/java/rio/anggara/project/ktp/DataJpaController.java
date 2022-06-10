@@ -22,8 +22,7 @@ import rio.anggara.project.ktp.exceptions.PreexistingEntityException;
  */
 public class DataJpaController implements Serializable {
 
-    public DataJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+    public DataJpaController() {
     }
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("rio.anggara_project.ktp_jar_0.0.1-SNAPSHOTPU");
 
@@ -31,9 +30,6 @@ public class DataJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public DataJpaController() {
-    }
-    
     public void create(Data data) throws PreexistingEntityException, Exception {
         EntityManager em = null;
         try {

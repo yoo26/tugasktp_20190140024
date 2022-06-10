@@ -5,25 +5,49 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
 -->
 <html>
     <head>
-        <title>CRUD KTP</title>
+        <title>Dummy</title>
         <meta charset="UTF-8">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <a href="/create">Create</a>
-        <div class="table-responsive">
-            <table class="table allign-middle">
-                <tr>
-                    <th>NIK</th>
-                    <th>Tanggal Lahir</th>
-                    <th>Foto</th>
-                </tr>
-                <tr th:each="godummy:${goDummy}">
-                    <td th:text="${godummy.id}"></td>
-                    <td th:text="${#calendars.format(godummy.tanggal,'dd-MMM-yyyy')}"></td>
-                    <td th:text="${godummy.gambar}"></td>
-                </tr>
-            </table>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="/projectktp">Project KTP</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link active" href="#">Read <span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link" href="/projectktp/create">Create</a>
+      <a class="nav-item nav-link disabled" href="#">Disabled</a>
+    </div>
+  </div>
+</nav>
+        <br>
+        <div class="table">
+        <table class="table table-striped table-dark">
+  <thead>
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">Gambar</th>
+      <th scope="col">Tanggal</th>
+      <th scope="col">Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr th:each="godummy:${godummy}">
+        <td th:text="${godummy.id}"></td>
+        <td> <img th:src="@{${'/gambar?id='+ godummy.id}}" alt="gambar" width="100"></td>
+        <td th:text="${#dates.format(godummy.tanggal,'dd-MMM-yyyy')}"></td>
+        <td>
+           <a th:href="@{/edit/{id}(id=${godummy.id})}" class="btn btn-warning center-block">Edit</a>
+           <a th:href="@{/delete/{id}(id=${godummy.id})}" class="btn btn-danger center-block" onclick="return confirm('hapus?')">Delete</a>
+         </td>
+    </tr>
+  </tbody>
+</table>
         </div>
     </body>
 </html>

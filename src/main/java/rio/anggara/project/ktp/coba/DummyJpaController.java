@@ -26,7 +26,6 @@ public class DummyJpaController implements Serializable {
     }
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("rio.anggara_project.ktp_jar_0.0.1-SNAPSHOTPU");
 
-
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
